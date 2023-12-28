@@ -1,0 +1,93 @@
+body {
+    color: #fff!important;
+    background-color: #222!important;
+}
+
+.container-text {
+    background-color: #373737!important;
+}
+.container-text-2 {
+    background-color: #373737!important;
+}
+.container-text-search {
+    background-color: #373737!important;
+}
+.container-text-filter {
+    background-color: #373737!important;
+}
+
+.content-text-title{
+    color: #fff!important;
+}
+.content-text-title a{
+    color: #fff!important;
+}
+.article-panel {
+    color: #fff!important;
+}
+.category:hover {
+    color: #eee!important;
+}
+.tag:hover {
+    color: #eee!important;
+}
+.text-post {
+    color: #fff!important;
+}
+.text-index {
+    color: #fff!important;
+}
+.btn-tags-more {
+    color: #fff!important;
+}
+.panel-filter {
+    border-top: 1px solid #222!important;
+}
+.border-r {
+    border-right: 1px solid #222!important;
+}
+.text-r {
+    color: #fff!important;
+}
+.form-control {
+    background-color: #2f2f2f!important;
+    color: #d3d3d3!important;
+}
+.t-padd {
+    color: #fff!important;
+}
+.text-border-add {
+    color: #fff!important;
+}
+.form-content {
+    background-color: #2f2f2f!important;
+    color: #d3d3d3!important;
+}
+.cat {
+    color: #fff!important;
+}
+#id_cat {
+    background-color: #2f2f2f!important;
+    color: #d3d3d3!important;
+}
+.reg-title {
+    color: #fff!important;
+}
+.label-input {
+    color: #fff!important;
+}
+.reg-acc-auth-text {
+    color: #fff!important;
+}
+#icon-pass {
+    color: #fff!important;
+}
+.input-text {
+    color: #d3d3d3!important;
+}
+.already-acc {
+    color: #fff!important;
+}
+.search-text {
+    color: #d3d3d3!important;
+}

@@ -1,0 +1,69 @@
+{% extends "specs/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Войти - DotaSpecs{% endblock %}
+
+{% block content %}
+<div class="container-text">
+  <div class="content-text">
+{% if process == "connect" %}
+<h2>{% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}</h2>
+
+<p>{% blocktrans with provider.name as provider %}You are about to connect a new third party account from {{ provider }}.{% endblocktrans %}</p>
+{% else %}
+<h2>{% blocktrans with provider.name as provider %}Sign In Via {{ provider }}{% endblocktrans %}</h2>
+
+<p>{% blocktrans with provider.name as provider %}You are about to sign in using a third party account from {{ provider }}.{% endblocktrans %}</p>
+{% endif %}
+
+
+<form method="post">
+  {% csrf_token %}
+  <div class="btn-div">
+    <button class="btn-reg" type="submit">{% trans "Continue" %}</button>
+  </div>
+</form>
+
+   </div>
+</div>
+
+<style>
+
+h2 {
+  padding-top: 30px;
+  text-align: center;
+}
+p {
+  padding-top: 20px;
+  text-align: center;
+}
+
+
+  .container-text {
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+}
+
+.content-text {
+    width: 92%;
+    margin-top: 90px;
+    margin-left: 15px;
+    margin-bottom: 50px;
+    overflow: hidden;
+    align-items: center;
+    padding-right: 55px;
+    padding-left: 55px;
+    padding-bottom: 15px;
+
+    color: #111;
+	font-size: 16px;
+	font-family: 'Roboto', sans-serif;
+}
+</style>
+
+{% endblock %}

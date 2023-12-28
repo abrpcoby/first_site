@@ -1,0 +1,286 @@
+{% extends 'specs/base.html' %}
+{% load specs_tags static %}
+
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.5/waypoints.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <meta name="description" content="Полезные фишки и актуальные баги Dota 2, которые помогут улучшить уровень вашей игры.">
+</head>
+
+
+{% block content %}
+
+<div class="container-text-2">
+    <div class="margin-top-search">
+        <form class="container-text-search" action="{% url 'home' %}" method="get">
+            <input class="search-text" type="text" name="search" placeholder="Поиск" autocomplete="off">
+            <button class="search-btn" type="submit"><span class="material-symbols-outlined">search</span></button>
+        </form>
+    </div>
+</div>
+
+<div class="columns">
+    <div class="container-text-filter">
+        <div class="margin-top-con-text">
+            <div class="content-text-filter">
+                <div class="content-text-inner-filter">
+
+                    <div class="p-count">
+                        {% if all_posts %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle info-posts-ico" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                        </svg>
+                        Общее количество постов:  {{ all_posts.count }}
+                        {% elif queryset %}
+                        <a href="{% url 'specs_by_tags' tag.slug %}"
+                           class="tag">{{tag.name}} ({{ queryset.count }})</a>
+                        {% elif cats_all %}
+                            <a href="{{ category.get_absolute_url }}"
+                               class="category">{{ cat_name }} ({{ cats_all.count }})</a>
+                        {% endif %}
+                    </div>
+
+                    <div class="title-filter">
+                        <button onclick="myFunction5()" id="myBtn" class="btn-tags-more"><span>---</span>Раскрыть категории и теги<span>---</span></button>
+                    </div>
+
+                <div class="article-panel-filter" id="panelFilter">
+                    <div class="more" id="more">
+                {% getcats as categories %}
+                {% for category in categories %}
+                     <a href="{{ category.get_absolute_url }}" class="category filter-tags">{{ category.name }} ({{ category.num_times }})</a>
+                {% endfor %}
+                {% all_tags as tag_list %}
+                {% for tag in tag_list %}
+                    <a href="{% url 'specs_by_tags' tag.slug %}" class="tag filter-tags">{{ tag.name }} ({{ tag.num_times }})</a>
+                {% endfor %}
+                    </div>
+                    <span id="dots"></span>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="all-posts infinite-container">
+    {% for p in posts %}
+    <div class="container-text infinite-item">
+        <div class="margin-top-con-text">
+            <div class="content-text">
+                <div class="content-text-inner">
+                    <div class="article-panel">
+                        <p class="first">
+                            <a href="{{ p.cat.get_absolute_url }}" class="category">{{p.cat}}</a>
+                        </p>
+
+                        {% for tag in p.tags.all %}
+                        <p class="first">
+                            <a href="{% url 'specs_by_tags' tag.slug %}" class="tag">{{ tag.name }}</a>
+                        </p>
+                        {% endfor %}
+
+
+                            <p class="last">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-clock ico-post" viewBox="0 0 16 16">
+                                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                                </svg>
+                                {{p.time_create|date:"DATETIME_FORMAT"}}
+                            </p>
+
+                    </div>
+                    <p class="content-text-title">
+                        <a href="{{ p.get_absolute_url }}">{{p.title}}</a>
+                    </p>
+
+                <div id="content-copyright" class="text-index">
+                    {% autoescape on %}
+                    {{p.description|safe|linebreaks}}
+                    {% endautoescape %}
+                </div>
+                <div class="read-more">
+                    <p class="read-more-p">Чтобы читать полностью нажмите на изображение или заголовок</p>
+                </div>
+
+                {% if p.image %}
+                <a href="{{ p.get_absolute_url }}" class="align-center"><img class="post-img" src="{{p.image.url}}"></a>
+                {% endif %}
+
+
+                <div class="text-border">
+                    <div class="article-panel">
+                        {% if p.moderator_nickname %}
+                            <p class="first-moderator">Модератор: {{p.moderator_nickname}}</p>
+                        {% endif %}
+
+                        {% if p.author %}
+                            <p class="last-autor"> Автор: {{p.author}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+</div>
+
+{% if page_obj.has_other_pages %}
+        <nav class="list-pages">
+            <ul>
+                {% if page_obj.has_next %}
+                <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+                {% endif %}
+            </ul>
+        </nav>
+{% endif %}
+
+<div id="back_to_top" class="back-to-top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#3DCAFF" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+    </svg>
+</div>
+
+<script src="{% static 'specs/js/back_to_top.js' %}"></script>
+<script src="{% static 'specs/js/jquery.waypoints.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'specs/js/infinite.min.js' %}" type="text/javascript"></script>
+
+<script>
+        var infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+
+            offset: 'bottom-in-view',
+
+            onBeforePageLoad: function () {
+
+            },
+            onAfterPageLoad: function () {
+
+            }
+        });
+
+function myFunction5() {
+  var dots = document.getElementById("dots");
+  var moreText = document.getElementById("more");
+  var btnText = document.getElementById("myBtn");
+  var panel = document.getElementById("panelFilter");
+
+  if (dots.style.display === "none") {
+    dots.style.display = "block";
+    btnText.innerHTML = "<span>---</span>Раскрыть категории и теги<span>---</span>";
+    moreText.style.display = "none";
+    document.getElementById("panelFilter").classList.remove("panel-filter");
+    document.getElementById("myBtn").classList.remove("btn-tags-more-margin");
+  } else {
+    dots.style.display = "none";
+    btnText.innerHTML = "<span>---</span>Скрыть категории и теги<span>---</span>";
+    moreText.style.display = "block";
+    document.getElementById("panelFilter").classList.toggle("panel-filter");
+    document.getElementById("myBtn").classList.toggle("btn-tags-more-margin");
+  }
+}
+
+</script>
+
+
+<style>
+.post-img {
+    border-radius: 16px;
+    object-fit: contain;
+}
+.button {
+    border: none;
+    background: none;
+}
+.search-btn:hover {
+    opacity: 1;
+}
+
+.text-index{
+    margin-top: 10px;
+    text-align: justify;
+    color: var(--var-text-color)!important;
+}
+.container-text {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+}
+.text-border {
+    margin-top: 10px;
+}
+
+.i-padding {
+    padding-top: 10px;
+}
+.margin-top {
+    margin-top: 190px;
+}
+.content-text {
+    box-sizing: border-box;
+    margin-top: -20px;
+
+    margin-bottom: -40px;
+    max-width: 1175px;
+}
+.align-center {
+    text-align: center;
+}
+a.align-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+div.article-panel p.last-autor {
+    float: right;
+    color: #e83c3c;
+    margin-bottom: 0;
+}
+.clear {clear: both;}
+.btn {
+    display: inline-block;
+    vertical-align: top;
+    margin: 20px 0px 20px 0px;
+    padding: 8px 40px;
+    border: 2px solid #111;
+    position: relative;
+    text-align: right;
+
+    border-radius: 24px;
+    margin-top: 0px;
+    color: #111;
+    text-decoration: none;
+
+    transition: background .2s linear;
+    box-shadow: 0 6px 10px rgba(0,0,0,.1);
+}
+.btn:hover {
+    background-color: #93E4FB;
+}
+.content-text-title a {
+    color: #111;
+	font-size: 32px;
+	font-family: 'Roboto', sans-serif;
+	text-decoration: none;
+	margin-right: 20px;
+}
+.content-text-title a:hover {
+    text-decoration: underline;
+}
+.column-right {
+    float: right;
+}
+.column-left {
+    float: left;
+}
+</style>
+
+{% endblock %}

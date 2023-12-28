@@ -1,0 +1,455 @@
+{% extends 'specs/base.html' %}
+{% load static specs_tags account socialaccount %}
+{% block content %}
+
+
+<div class="container-text">
+  <div class="content-text">
+    <form class="form" method="post" id="form">
+
+
+        <span class="reg-title"><br>Авторизация</span>
+
+        {% csrf_token %}
+      <div class="block-reg">
+          <span class="label-input">Логин</span>
+          <span class="material-symbols-outlined symbol">person</span>
+          {{ form.username }}
+      </div>
+
+        <div class="field-error">
+              {{ form.username.errors }}
+        </div>
+
+
+      <div class="block-reg pass">
+          <span class="label-input">Пароль</span>
+          <span class="material-symbols-outlined symbol">lock</span>
+          {{ form.password }}
+          <span class="material-symbols-outlined icon-pass" id="icon-pass">visibility</span>
+      </div>
+
+        <div class="field-error">
+              {{ form.password.errors }}
+        </div>
+
+
+        {% if form.non_field_errors %}
+            <div class="non-field-errors">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div class="recaptcha">
+            {{ form.recaptcha }}
+        </div>
+
+        <div class="forgot-pass">
+            <a href="{% url 'password_reset' %}">Восстановить пароль</a>
+        </div>
+
+        <div class="btn-div">
+            <button type="submit" class="btn-reg">Войти</button>
+        </div>
+
+        <div class="reg-acc-auth-text">
+            <span>Войти с помощью:</span>
+        </div>
+
+        <div class="reg-acc-auth">
+            <a href="{% provider_login_url 'google' %}?next=/" class="item-acc bg-google">
+                <i class="fa fa-google"></i></a>
+        </div>
+    </form>
+  </div>
+</div>
+
+<script>
+
+    const inputPass = document.getElementById('id_password')
+    const iconPass = document.getElementById('icon-pass')
+
+    iconPass.addEventListener('click', () => {
+        if (inputPass.getAttribute('type') === 'password') {
+            iconPass.textContent = 'visibility_off'
+            inputPass.setAttribute('type', 'text');
+        } else {
+            iconPass.textContent = 'visibility'
+            inputPass.setAttribute('type', 'password');
+        }
+    });
+
+</script>
+
+<style>
+
+.top {
+    margin-bottom: 0px;
+}
+
+.pass {
+    position: relative;
+}
+
+.icon-pass {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    margin-top: 12px;
+    font-size: 20px;
+}
+
+.icon-pass.view {
+    background: url('../static/specs/images/ico-pass.png') 0 0 no-repeat;
+}
+
+.bg-google {
+    background-color: #ea4335;
+    transition: background-color .2s linear;
+}
+.bg-google:hover {
+    background-color: #111;
+}
+
+.bg-vk {
+    background-color: #1F82F7;
+    transition: background-color .2s linear;
+}
+.bg-vk:hover {
+    background-color: #111;
+}
+
+.bg-facebook {
+    background-color: #3f64b1;
+    transition: background-color .2s linear;
+}
+.bg-facebook:hover {
+    background-color: #111;
+}
+
+.bg-twitter {
+    background-color: #1da1f2;
+    transition: background-color .2s linear;
+}
+.bg-twitter:hover {
+    background-color: #111;
+}
+
+.item-acc {
+    font-size: 25px;
+    color: #fff;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 5px;
+    text-decoration: none;
+}
+
+.reg-acc-auth-text {
+    text-align: center;
+    font-size: 15px;
+    color: #111;
+    padding-top: 30px;
+}
+
+.reg-acc-auth {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    -ms-align-items: center;
+    align-items: center;
+    padding-top: 10px;
+}
+
+li {
+    list-style: none;
+}
+
+.non-field-errors {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #f50717;
+    text-align: center;
+
+    padding-bottom: 10px;
+}
+
+.field-error {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    color: #f50717;
+
+    padding-left: 44px;
+    padding-bottom: 10px;
+}
+
+.btn-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-reg {
+    display: inline-block;
+    vertical-align: top;
+    margin: 20px 0px 20px 0px;
+    padding: 5px 40px;
+
+    position: relative;
+    text-align: right;
+    background-color: transparent;
+    cursor: pointer;
+
+    border: none;
+    border-radius: 14px;
+    color: rgb(255 255 255);
+    background-color: #5e9fff;
+    text-decoration: none;
+
+    transition: background .2s linear;
+    box-shadow: 0 6px 10px rgba(0,0,0,.1);
+}
+
+.btn-reg:hover {
+    color: #fff;
+    background-color: #1c86ff;
+}
+
+.btn-reg:after {
+    background-color: #1c86ff;
+    color: #fff;
+}
+
+.already-acc {
+    padding-top: 5px;
+    text-align: center;
+    background-color: transparent;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.already-acc a {
+    background-color: transparent;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+    transition: all .2s;
+    -webkit-transition: all .2s;
+}
+
+.already-acc a:hover {
+    text-decoration: underline;
+}
+
+.forgot-pass {
+    padding-top: 5px;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.forgot-pass a {
+    background-color: transparent;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+    transition: all .2s;
+    -webkit-transition: all .2s;
+}
+
+.forgot-pass a:hover {
+    text-decoration: underline;
+}
+
+.input-text {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.2;
+    display: block;
+    width: 100%;
+    height: 45px;
+    background: 0 0;
+    padding: 0 34px 0 43px
+}
+
+.label-input {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+    padding-left: 7px;
+    opacity: 0.9;
+}
+
+input {
+    border: none;
+    outline: none;
+}
+
+.block-reg {
+    display: block;
+    position: relative;
+    width: 100%;
+    border-bottom: 2px solid #d9d9d9;
+    margin-bottom: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.reg-title {
+    display: block;
+    font-size: 32px;
+    color: #333;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.center {
+  text-align: center;
+}
+
+.input__wrapper {
+  width: 100%;
+  position: relative;
+  margin: 15px 0;
+  text-align: center;
+}
+
+.input__file {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+}
+
+.symbol {
+  color: #adadad;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  margin-top: 2px;
+  padding-left: 6px;
+  padding-top: 6px;
+}
+
+.input__file-button-text {
+  line-height: 1;
+  margin-top: 1px;
+  margin-right: 10px;
+}
+
+.input__file-button {
+  width: 100%;
+  max-width: 200px;
+  height: 25px;
+  background-color: transparent;
+  border: 1px solid #111;
+  color: #111;
+  font-size: 13px;
+  font-weight: 300;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 0 auto;
+}
+
+
+.cat {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    color: #111;
+    margin-left: -13px;
+}
+
+
+.text-red{
+    color: #e83c3c
+}
+
+
+.nickname-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #111;
+
+    align-items: left;
+
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #cfd0d3;
+
+    margin-bottom: 15px;
+    text-align: left;
+    width: 100%;
+    max-width: 150px;
+    margin-bottom: 25px;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #333;
+    background-color: #EFF8F3;
+}
+
+.container-text {
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+}
+
+.content-text {
+    width: 92%;
+    margin-top: 90px;
+    margin-left: 15px;
+    margin-bottom: 50px;
+    overflow: hidden;
+
+    padding-right: 55px;
+    padding-left: 55px;
+    padding-bottom: 15px;
+
+    color: #111;
+	font-size: 16px;
+	font-family: 'Roboto', sans-serif;
+}
+
+@media screen and (max-width: 480px) {
+    .content-text {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+</style>
+{% endblock %}

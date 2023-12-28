@@ -1,0 +1,332 @@
+{% extends 'specs/base.html' %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<div class="container-text">
+    <div class="content-text">
+        <p class="content-text-title"><br>Заполните форму чтобы предложить запись</p>
+        <p class="t-padd">После предложения вами фишки или бага, форма будет рассмотрена администрацией сайта.
+            Если форма будет одобрена, ваш никнейм будет использован как никнейм автора.
+            <br><br>
+            Желательно прикреплять видео. Можно вставить ссылку в поле текста.
+            <br></p>
+        <p class="text-border-add">После успешной отправки формы вы будете перенаправлены на главную страницу.<br><br></p>
+
+        <form action="{% url 'add_page' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+                    <div class="form">
+
+                        {{ form.content }}
+
+                        <div class="form-video-cat">
+<!--                            <div class="file">-->
+<!--                                    <div class="input-file-row">-->
+<!--                                            <label class="input-file" for="{{ form.video.id_for_label }}">-->
+<!--                                            {{ form.video }}-->
+<!--                                            <span>Загрузить файл</span>-->
+<!--                                            </label>-->
+<!--                                        <div class="input-file-list"></div>-->
+<!--                                    </div>-->
+<!--                            </div>-->
+                            <p class="cat">Категория: {{ form.cat }}</p>
+
+                        </div>
+
+                        <div class="recaptcha">
+                            {{ form.recaptcha }}
+                        </div>
+
+                        <div class="btn-div">
+                            <button type="submit" class="btn">Предложить</button>
+                        </div>
+                    </div>
+        </form>
+    </div>
+</div>
+
+<style>
+
+.top {
+    margin-bottom: 30px;
+}
+
+.input-file-row {
+	display: inline-block;
+}
+.input-file {
+	position: relative;
+	display: inline-block;
+}
+.input-file span {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	outline: none;
+	text-decoration: none;
+	font-size: 14px;
+	vertical-align: middle;
+	color: rgb(255 255 255);
+	text-align: center;
+	border-radius: 4px;
+	background-color: #5e9fff;
+	line-height: 22px;
+	height: 40px;
+	padding: 10px 10px;
+	box-sizing: border-box;
+	border: none;
+	margin: 0;
+	transition: background-color 0.2s;
+}
+.input-file input[type=file] {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+	display: block;
+	width: 0;
+	height: 0;
+}
+
+/* Focus */
+.input-file input[type=file]:focus + span {
+	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Hover/active */
+.input-file:hover span {
+	background-color: #1c86ff;
+}
+.input-file:active span {
+	background-color: #1c86ff;
+}
+
+/* Disabled */
+.input-file input[type=file]:disabled + span {
+	background-color: #eee;
+}
+
+/* Список c превью */
+.input-file-list {
+	padding: 10px 0;
+}
+.input-file-list-item {
+	display: inline-block;
+	margin: 0 15px 15px;
+	width: 100px;
+	vertical-align: top;
+	position: relative;
+}
+.input-file-list-item img {
+	width: 100px;
+}
+.input-file-list-name {
+	text-align: center;
+	display: block;
+	font-size: 12px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.input-file-list-remove {
+	color: #fff;
+	text-decoration: none;
+	display: inline-block;
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	top: 5px;
+	right: 5px;
+	background: #ff0202;
+	width: 16px;
+	height: 16px;
+	text-align: center;
+	line-height: 16px;
+	border-radius: 50%;
+}
+
+.btn-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    display: inline-block;
+    vertical-align: top;
+    margin: 20px 0px 20px 0px;
+    padding: 5px 40px;
+
+    position: relative;
+    text-align: right;
+    background-color: transparent;
+    cursor: pointer;
+
+    border-radius: 14px;
+    color: rgb(255 255 255);
+    background-color: #5e9fff;
+    text-decoration: none;
+
+    transition: background .2s linear;
+    box-shadow: 0 6px 10px rgba(0,0,0,.1);
+}
+
+.btn:hover {
+    color: #fff;
+    background-color: #1c86ff;
+}
+
+.btn:after {
+    background-color: #1c86ff;
+    color: #fff;
+}
+
+.input__wrapper {
+  width: 100%;
+  position: relative;
+  margin: 15px 0;
+  text-align: center;
+}
+
+.input__file {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+}
+
+
+
+.input__file-button-text {
+  line-height: 1;
+  margin-top: 1px;
+  margin-right: 10px;
+}
+
+.input__file-button {
+  width: 100%;
+  max-width: 200px;
+  height: 25px;
+  background-color: transparent;
+  border: 1px solid #111;
+  color: #111;
+  font-size: 13px;
+  font-weight: 300;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 0 auto;
+}
+
+
+.cat {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    color: #111;
+    padding-top: 16px;
+}
+
+
+.text-red{
+    color: #e83c3c
+}
+
+
+.nickname-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #111;
+
+    align-items: left;
+
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #cfd0d3;
+
+    margin-bottom: 15px;
+    text-align: left;
+    width: 100%;
+    max-width: 150px;
+    margin-bottom: 25px;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #333;
+    background-color: #EFF8F3;
+}
+
+.container-text {
+    width: 100%;
+    max-width: 1000px;
+    height: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+}
+
+.content-text {
+    width: 92%;
+    margin-top: 70px;
+    margin-left: 15px;
+    margin-bottom: 50px;
+
+    color: #111;
+	font-size: 16px;
+	font-family: 'Roboto', sans-serif;
+}
+
+@media screen and (max-width: 370px) {
+    .cat {
+        margin-left: 20px;
+    }
+}
+
+</style>
+
+<script>
+var dt = new DataTransfer();
+
+$('.input-file input[type=file]').on('change', function(){
+	let $files_list = $(this).closest('.input-file').next();
+	$files_list.empty();
+
+	for(var i = 0; i < this.files.length; i++){
+		let file = this.files.item(i);
+		dt.items.add(file);
+
+		let reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onloadend = function(){
+			let new_file_input = '<div class="input-file-list-item">' +
+				'<img class="input-file-list-img" src="' + reader.result + '">' +
+				'<span class="input-file-list-name">' + file.name + '</span>' +
+				'<a href="#" onclick="removeFilesItem(this); return false;" class="input-file-list-remove">x</a>' +
+			'</div>';
+			$files_list.append(new_file_input);
+		}
+	};
+	this.files = dt.files;
+});
+
+function removeFilesItem(target){
+	let name = $(target).prev().text();
+	let input = $(target).closest('.input-file-row').find('input[type=file]');
+	$(target).closest('.input-file-list-item').remove();
+	for(let i = 0; i < dt.items.length; i++){
+		if(name === dt.items[i].getAsFile().name){
+			dt.items.remove(i);
+		}
+	}
+	input[0].files = dt.files;
+}
+</script>
+
+{% endblock %}

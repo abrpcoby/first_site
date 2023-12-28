@@ -1,0 +1,361 @@
+{% extends 'specs/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</head>
+
+
+<div class="container-text">
+    <div class="margin-top">
+    <form action="{% url 'profile' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="th rounded mt-5 mb-2">
+    <div class="row">
+        <div class="col-md-3 border-r">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" width="150px" src="{% if user.image %} {{ user.image.url }} {% else %} {% static 'specs/images/default_avatar.png' %} {% endif %}">
+                <span class="font-weight-bold">{{ user.username }}</span>
+                <span class="text-r">Статус: {% if user.is_superuser %} Главный администратор
+                    {% elif user.is_staff %} Администратор {% else %} Пользователь {% endif %}</span>
+                <span class="text-r">Дата регистрации: {{ user.date_joined }}</span>
+            </div>
+        </div>
+        <div class="col-md-5 border-r">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between text-center align-items-center mb-3">
+                    <h4 class="text-center p-ttt">Настройки профиля</h4>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6 text-center">
+                        <label class="labels" for="{{ form.username.id_for_label }}">Никнейм</label>
+                        {{ form.username }}
+
+                        <div class="field-error">
+                            {{ form.username.errors }}
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <label class="labels" for="{{ form.email.id_for_label }}">Электронная почта</label>
+                        {{ form.email }}
+
+                        <div class="field-error">
+                            {{ form.email.errors }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 text-center">
+                    <div class="col-md-12"><label class="labels">Изменить аватарку</label></div>
+                    <div class="input-file-row">
+                            <label class="input-file" for="{{ form.image.id_for_label }}">
+                                {{ form.image }}
+                                <span>Выберите изображение</span>
+                            </label>
+                            <div class="field-error">
+                                {{ form.image.errors }}
+                            </div>
+                        <div class="input-file-list"></div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6 text-center">
+                        <label class="labels" for="{{ form.first_name.id_for_label }}">Имя <label class="not-req">*не обязательно</label></label>
+                        {{ form.first_name }}
+
+                        <div class="field-error">
+                            {{ form.first_name.errors }}
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <label class="labels" for="{{ form.last_name.id_for_label }}">Фамилия <label class="not-req">*не обязательно</label></label>
+                        {{ form.last_name }}
+
+                        <div class="field-error">
+                            {{ form.last_name.errors }}
+                        </div>
+                    </div>
+
+                    {% if form.non_field_errors %}
+                    <div class="non-field-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="mt-3 text-center">
+                    <button class="btn-2" type="submit">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+</div>
+</div>
+
+
+<style>
+
+.i-m-w {
+    max-width: 600px;
+}
+
+.non-field-errors {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #f50717;
+    text-align: center;
+
+    padding-bottom: 10px;
+}
+
+.field-error {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    color: #f50717;
+
+    padding-left: 0;
+    padding-bottom: 10px;
+}
+
+.p-ttt {
+    width: 100%;
+}
+
+.form-control {
+    text-align: center;
+}
+
+.text-r {
+    color: rgba(0,0,0,.5);
+    font-size: 15px;
+}
+
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+.not-req {
+    opacity: 0.7
+}
+
+.btn-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-2 {
+    display: inline-block;
+    vertical-align: top;
+    margin: 20px 0px 20px 0px;
+    padding: 5px 40px;
+
+    position: relative;
+    text-align: right;
+    background-color: transparent;
+    cursor: pointer;
+
+    border: none;
+    border-radius: 14px;
+    color: rgb(255 255 255);
+    background-color: #5e9fff;
+    text-decoration: none;
+
+    transition: background .2s linear;
+    box-shadow: 0 6px 10px rgba(0,0,0,.1);
+}
+
+.btn-2:hover {
+    color: #fff;
+    background-color: #1c86ff;
+}
+
+.btn-2:after {
+    background-color: #1c86ff;
+    color: #fff;
+}
+
+.margin-top {
+    margin-top: 70px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8
+}
+
+.profile-button {
+    background: rgb(99, 39, 120);
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #682773
+}
+
+.profile-button:focus {
+    background: #682773;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #682773;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}
+.input-file-row {
+	display: inline-block;
+}
+.input-file {
+	position: relative;
+	display: inline-block;
+}
+.input-file span {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	outline: none;
+	text-decoration: none;
+	font-size: 14px;
+	vertical-align: middle;
+	color: rgb(255 255 255);
+	text-align: center;
+	border-radius: 4px;
+	background-color: #5e9fff;
+	line-height: 22px;
+	height: 40px;
+	padding: 10px 20px;
+	box-sizing: border-box;
+	border: none;
+	margin: 0;
+	transition: background-color 0.2s;
+}
+.input-file input[type=file] {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+	display: block;
+	width: 0;
+	height: 0;
+}
+
+/* Focus */
+.input-file input[type=file]:focus + span {
+	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Hover/active */
+.input-file:hover span {
+	background-color: #1c86ff;
+}
+.input-file:active span {
+	background-color: #1c86ff;
+}
+
+/* Disabled */
+.input-file input[type=file]:disabled + span {
+	background-color: #eee;
+}
+
+/* Список c превью */
+.input-file-list {
+	padding: 10px 0;
+}
+.input-file-list-item {
+	display: inline-block;
+	margin: 0 15px 15px;
+	width: 150px;
+	vertical-align: top;
+	position: relative;
+}
+.input-file-list-item img {
+	width: 150px;
+}
+.input-file-list-name {
+	text-align: center;
+	display: block;
+	font-size: 12px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.input-file-list-remove {
+	color: #fff;
+	text-decoration: none;
+	display: inline-block;
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	top: 5px;
+	right: 5px;
+	background: #ff0202;
+	width: 16px;
+	height: 16px;
+	text-align: center;
+	line-height: 16px;
+	border-radius: 50%;
+}
+</style>
+
+<script>
+var dt = new DataTransfer();
+
+$('.input-file input[type=file]').on('change', function(){
+	let $files_list = $(this).closest('.input-file').next();
+	$files_list.empty();
+
+	for(var i = 0; i < this.files.length; i++){
+		let file = this.files.item(i);
+		dt.items.add(file);
+
+		let reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onloadend = function(){
+			let new_file_input = '<div class="input-file-list-item">' +
+				'<img class="input-file-list-img" src="' + reader.result + '">' +
+				'<span class="input-file-list-name">' + file.name + '</span>' +
+				'<a href="#" onclick="removeFilesItem(this); return false;" class="input-file-list-remove">x</a>' +
+			'</div>';
+			$files_list.append(new_file_input);
+		}
+	};
+	this.files = dt.files;
+});
+
+function removeFilesItem(target){
+	let name = $(target).prev().text();
+	let input = $(target).closest('.input-file-row').find('input[type=file]');
+	$(target).closest('.input-file-list-item').remove();
+	for(let i = 0; i < dt.items.length; i++){
+		if(name === dt.items[i].getAsFile().name){
+			dt.items.remove(i);
+		}
+	}
+	input[0].files = dt.files;
+}
+</script>
+
+{% endblock %}

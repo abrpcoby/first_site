@@ -1,0 +1,4 @@
+    <a class="nav__link-dd" href="{% url 'home' %}">Все категории</a>
+{% for c in cats %}
+    <a class="nav__link-dd" href="{{ c.get_absolute_url }}">{{c.name}}</a>
+{% endfor %}

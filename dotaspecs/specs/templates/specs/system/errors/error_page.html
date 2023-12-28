@@ -1,0 +1,18 @@
+{% extends 'specs/base.html' %}
+
+{% block content %}
+    <div class="container-text align-center">
+        <div class="content-text">
+            <img width="420px" src="https://usagif.com/wp-content/uploads/2022/4hv9xm/crying-emoji-9.gif.webp">
+            <p class="vv">{{ error_message }} | <a href="{% url 'home' %}"><strong>Вернуться на главную</strong></a></p>
+        </div>
+    </div>
+
+<style>
+    .vv {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+</style>
+
+{% endblock content %}

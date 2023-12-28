@@ -1,0 +1,32 @@
+{% extends 'specs/base.html' %}
+{% load static %}
+
+{% block content %}
+<title>
+    {% block title %}
+       DotaSpecs | Политика конфиденциальности
+    {% endblock title %}
+</title>
+<div class="container-text">
+  <div class="content-text">
+    <div class="header-policy">
+      <h1>Политика конфиденциальности</h1>
+    </div>
+      <div class="flatpage-content">
+          {{ flatpage.content }}
+      </div>
+  </div>
+</div>
+
+<style>
+  .flatpage-content {
+    padding-top: 20px;
+  }
+  .content-text {
+    margin-top: 80px;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+</style>
+{% endblock %}

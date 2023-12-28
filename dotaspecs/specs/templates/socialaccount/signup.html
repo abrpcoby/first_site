@@ -1,0 +1,312 @@
+{% extends "specs/base.html" %}
+{% load static account socialaccount %}
+
+{% load i18n %}
+
+{% block title %}Регистрация - DotaSpecs{% endblock %}
+
+{% block content %}
+<div class="container-text">
+  <div class="content-text">
+    <span class="reg-title"><br>Регистрация</span>
+
+<p>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your {{provider_name}} account to login to
+{{site_name}}. As a final step, please complete the following form:{% endblocktrans %}</p>
+
+<form class="signup form" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
+  {% csrf_token %}
+    <span class="label-input">Логин: </span>
+  <div class="block-reg">
+      {{ form.username }}
+  </div>
+
+    <div class="field-error">
+        {{ form.username.errors }}
+    </div>
+
+    <span class="label-input">E-mail: </span>
+  <div class="block-reg">
+      {{ form.email }}
+  </div>
+
+    <div class="field-error">
+         {{ form.email.errors }}
+    </div>
+
+  {% if form.non_field_errors %}
+      <div class="non-field-errors">
+        {{ form.non_field_errors }}
+      </div>
+      {% endif %}
+
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <div class="btn-div">
+    <button type="submit" class="btn-reg">{% trans "Sign Up" %}</button>
+  </div>
+</form>
+  </div>
+</div>
+
+<style>
+
+.item-acc {
+    font-size: 25px;
+    color: #fff;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 5px;
+    text-decoration: none;
+}
+
+.reg-acc-auth-text {
+    text-align: center;
+    font-size: 15px;
+    color: #111;
+    padding-top: 30px;
+}
+
+.reg-acc-auth {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    -ms-align-items: center;
+    align-items: center;
+    padding-top: 10px;
+}
+
+li {
+    list-style: none;
+}
+
+.non-field-errors {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #f50717;
+    text-align: center;
+
+    padding-bottom: 10px;
+}
+
+.field-error {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    color: #f50717;
+
+    padding-left: 44px;
+    padding-bottom: 10px;
+}
+
+.field-help {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    color: #adadad;
+
+    padding-left: 44px;
+    margin-top: -8px;
+}
+
+.btn-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-reg {
+    display: inline-block;
+    vertical-align: top;
+    margin: 20px 0px 20px 0px;
+    padding: 8px 25px;
+    border: 2px solid #111;
+    position: relative;
+    text-align: right;
+    cursor: pointer;
+    background-color: transparent;
+
+    border-radius: 14px;
+
+    color: #111;
+    text-decoration: none;
+
+    transition: background .2s linear;
+    box-shadow: 0 6px 10px rgba(0,0,0,.1);
+}
+
+.btn-reg:hover {
+    background-color: #111;
+    color: #fff;
+}
+
+.already-acc {
+    padding-top: 5px;
+    text-align: center;
+    background-color: transparent;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.already-acc a {
+    background-color: transparent;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+    transition: all .2s;
+    -webkit-transition: all .2s;
+}
+
+.already-acc a:hover {
+    text-decoration: underline;
+}
+
+.forgot-pass {
+    padding-top: 5px;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.forgot-pass a {
+    background-color: transparent;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+    transition: all .2s;
+    -webkit-transition: all .2s;
+}
+
+.forgot-pass a:hover {
+    text-decoration: underline;
+}
+
+.input-text {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.2;
+    display: block;
+    width: 100%;
+    height: 45px;
+    background: 0 0;
+    padding: 0 7px 0 43px
+}
+
+.label-input {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+    padding-left: 0px;
+    opacity: 0.9;
+}
+
+input {
+    border: none;
+    outline: none;
+}
+
+.block-reg {
+    display: block;
+    position: relative;
+    width: 100%;
+    border-bottom: 2px solid #d9d9d9;
+    margin-bottom: 10px;
+}
+
+
+.reg-title {
+    display: block;
+    font-size: 32px;
+    color: #333;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.center {
+  text-align: center;
+}
+
+
+.symbol {
+  color: #adadad;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  margin-top: 2px;
+  padding-left: 6px;
+  padding-top: 6px;
+}
+
+.text-red{
+    color: #e83c3c
+}
+
+
+.nickname-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #111;
+
+    align-items: left;
+
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #cfd0d3;
+
+    margin-bottom: 15px;
+    text-align: left;
+    width: 100%;
+    max-width: 150px;
+    margin-bottom: 25px;
+}
+
+body {
+    margin-right: 14px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #333;
+    background-color: #EFF8F3;
+}
+
+.container-text {
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+}
+
+.content-text {
+    width: 92%;
+    margin-top: 90px;
+    margin-left: 15px;
+    margin-bottom: 50px;
+    overflow: hidden;
+
+    padding-right: 55px;
+    padding-left: 55px;
+    padding-bottom: 15px;
+
+    color: #111;
+	font-size: 16px;
+	font-family: 'Roboto', sans-serif;
+}
+
+
+</style>
+{% endblock %}

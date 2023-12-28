@@ -1,0 +1,210 @@
+{% extends 'specs/base.html' %}
+
+{% block content %}
+
+<div class="container-text">
+    <div class="margin-top">
+        <div class="content-text-post">
+            <div class="content-text-inner">
+
+                <div class="article-panel">
+                    <p class="first">
+                        <a href="{{ p.cat.get_absolute_url }}" class="category">{{post.cat}}</a>
+                    </p>
+                        {% for tag in post.tags.all %}
+                        <p class="first">
+                            <a href="{% url 'specs_by_tags' tag.slug %}" class="tag">{{ tag.name }}</a>
+                        </p>
+                        {% endfor %}
+                    <p class="last">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-clock ico-post" viewBox="0 0 16 16">
+                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                        </svg>
+                        {{post.time_create|date:"DATETIME_FORMAT"}}
+                    </p>
+                </div>
+                <p class="content-text-title">{{post.title}}</p>
+
+                <div id="content-copyright" class="text-post">{{post.content|safe|linebreaks}}</div>
+
+
+<!--                {% if post.image %}-->
+<!--                <p class="align-center-image i-padding"><img class="post-img" src="{{post.image.url}}"></p>-->
+<!--                {% endif %}-->
+<!--                <div class="nav">-->
+<!--                    <a class="btn" href="#" onclick="history.back();">Назад</a>-->
+<!--                </div>-->
+
+                <div class="article-panel">
+                    {% if post.moderator_nickname %}
+                        <p class="first-moderator">Модератор: {{post.moderator_nickname}}</p>
+                    {% endif %}
+
+                    {% if post.author %}
+                        <p class="last"> Автор: {{post.author}}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
+
+<div class="return" onclick="history.back();">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#3DCAFF" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+    </svg>
+</div>
+
+<style>
+
+figure {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.i-padding {
+    padding-top: 20px;
+}
+
+.margin-top {
+    margin-top: 110px;
+}
+/* Container */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.logo {
+	background: url('../images/logo.png') no-repeat 10px 5px;
+	width: 70px;
+	height: 60px;
+}
+.container-text {
+    width: 100%;
+    max-width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+}
+
+
+.content-text {
+    width: 100%;
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-bottom: 50px;
+    max-width: 1175px;
+
+    color: #111;
+	font-size: 18px;
+	font-family: 'Roboto', sans-serif;
+}
+
+
+.content-text-title {
+    color: #111;
+	font-size: 32px;
+	font-family: 'Roboto', sans-serif;
+	text-decoration: none;
+	margin-right: 20px;
+}
+
+.content-text-title a {
+    color: #111;
+	font-size: 32px;
+	font-family: 'Roboto', sans-serif;
+	text-decoration: none;
+	margin-right: 20px;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-center-image {
+    text-align: center;
+    margin-bottom: -10px;
+}
+
+p.align-center {
+    text-align: center;
+    margin-right: 20px;
+}
+
+.nav__link:hover {
+    color: #fff;
+}
+
+div.article-panel p.last {
+    margin: 0;
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+.btn {
+    display: inline-block;
+    vertical-align: top;
+    margin: 20px 0px 20px 0px;
+    padding: 5px 40px;
+
+    position: relative;
+    text-align: right;
+    background-color: transparent;
+    cursor: pointer;
+
+    border: none;
+    border-radius: 14px;
+    color: rgb(255 255 255);
+    background-color: #5e9fff;
+    text-decoration: none;
+
+    transition: background .2s linear;
+    box-shadow: 0 6px 10px rgba(0,0,0,.1);
+}
+
+.btn:hover {
+    color: #fff;
+    background-color: #1c86ff;
+}
+
+.btn:after {
+    background-color: #1c86ff;
+    color: #fff;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 16px;
+}
+
+.post-img {
+    object-fit: contain;
+}
+
+.text-border {
+    border-bottom: 1px solid #ccc;
+}
+
+.margin {
+    margin-top: 20px;
+    box-sizing: border-box;
+    font-size: 14px;
+	font-family: 'Roboto', sans-serif;
+    opacity: 0.6;
+    box-sizing: border-box;
+    padding: 10px 0px 0px 0px;
+    overflow: hidden;
+    color: #555;
+}
+</style>
+
+{% endblock %}
